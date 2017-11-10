@@ -199,6 +199,7 @@ def gettempProc(conn, myTempSensor):
         num = myTempSensor.readTempC()
         if num is None:
             print("Can't read temperature")
+            continue
         elapsed = "%.2f" % (time.time() - t)
         conn.send([num, myTempSensor.sensorNum, elapsed])
 
@@ -554,5 +555,5 @@ if __name__ == '__main__':
                                                                               param.status, statusQ_C, child_conn))
             p.start()
 
-    app.debug = True
+    app.debug = False
     app.run(use_reloader=False, host='0.0.0.0')
