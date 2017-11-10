@@ -1,8 +1,10 @@
-from subprocess import Popen, PIPE, call
 import os
+from subprocess import Popen, PIPE, call
+
 
 class Temp1Wire:
     numSensor = 0
+
     def __init__(self, tempSensorId):
         self.tempSensorId = tempSensorId
         self.sensorNum = Temp1Wire.numSensor
@@ -11,20 +13,20 @@ class Temp1Wire:
         oldOneWireDir = "/sys/bus/w1/devices/w1_bus_master1/"
         newOneWireDir = "/sys/bus/w1/devices/"
         if os.path.exists(oldOneWireDir):
-            self.oneWireDir = oldOneWireDir 
+            self.oneWireDir = oldOneWireDir
         else:
             self.oneWireDir = newOneWireDir
-        print("Constructing 1W sensor %s"%(tempSensorId))
+        print("Constructing 1W sensor %s" % (tempSensorId))
 
     def readTempC(self):
-        #pipe = Popen(["cat","/sys/bus/w1/devices/" + tempSensorId + "/w1_slave"], stdout=PIPE)
+        # pipe = Popen(["cat","/sys/bus/w1/devices/" + tempSensorId + "/w1_slave"], stdout=PIPE)
         pipe = Popen(["cat", self.oneWireDir + self.tempSensorId + "/w1_slave"], stdout=PIPE)
 
         result = pipe.communicate()[0].decode()
-    #    print(result)
+        #    print(result)
         if (result.split('\n')[0].split(' ')[11] == "YES"):
-          temp_C = float(result.split("=")[-1])/1000 # temp in Celcius
+            temp_C = float(result.split("=")[-1]) / 1000  # temp in Celcius
         else:
-          temp_C = 1000 #bad temp reading
-          
+            temp_C = 1000  # bad temp reading
+
         return temp_C
