@@ -52,13 +52,13 @@ class param:
     status = {
         "numTempSensors": 0,
         "temp": "0",
-        "tempUnits": "F",
+        "tempUnits": "C",
         "elapsed": "0",
-        "mode": "off",
+        "mode": "auto",
         "cycle_time": 2.0,
         "duty_cycle": 0.0,
         "boil_duty_cycle": 60,
-        "set_point": 0.0,
+        "set_point": 40.0,
         "boil_manage_temp": 200,
         "num_pnts_smooth": 5,
         "k_param": 44,
@@ -336,7 +336,7 @@ def tempControlProc(myTempSensor, display, pinNum, readOnly, paramStatus, status
 
     readyPIDcalc = False
 
-    while (True):
+    while True:
         readytemp = False
         while parent_conn_temp.poll():  # Poll Get Temperature Process Pipe
             temp_C, tempSensorNum, elapsed = parent_conn_temp.recv()  # non blocking receive from Get Temperature Process
@@ -345,7 +345,7 @@ def tempControlProc(myTempSensor, display, pinNum, readOnly, paramStatus, status
                 print("Bad Temp Reading - retry")
                 continue
 
-            if (tempUnits == 'F'):
+            if tempUnits == 'F':
                 temp = (9.0 / 5.0) * temp_C + 32
             else:
                 temp = temp_C
@@ -401,7 +401,7 @@ def tempControlProc(myTempSensor, display, pinNum, readOnly, paramStatus, status
             except Full:
                 pass
 
-            while (statusQ.qsize() >= 2):
+            while statusQ.qsize() >= 2:
                 statusQ.get()  # remove old status
 
             print("Current Temp: %3.2f deg %s, Heat Output: %3.1f%%" \
