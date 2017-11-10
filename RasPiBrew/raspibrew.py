@@ -323,6 +323,7 @@ def tempControlProc(myTempSensor, display, pinNum, readOnly, paramStatus, status
     pheat.daemon = True
     pheat.start()
 
+    pid = PIDController.pidpy(cycle_time, k_param, i_param, d_param)  # init pid
     temp_ma_list = []
     manage_boil_trigger = False
 
@@ -382,7 +383,7 @@ def tempControlProc(myTempSensor, display, pinNum, readOnly, paramStatus, status
                 # print temp_ma_list
 
                 # calculate PID every cycle
-                if (readyPIDcalc == True):
+                if readyPIDcalc == True:
                     duty_cycle = pid.calcPID_reg4(temp_ma, set_point, True)
                     # send to heat process every cycle
                     parent_conn_heat.send([cycle_time, duty_cycle])
