@@ -480,7 +480,7 @@ if __name__ == '__main__':
     call(["modprobe", "i2c-dev"])
 
     # Retrieve root element from config.xml for parsing
-    tree = ET.parse('config.xml')
+    tree = ET.parse(os.path.join(os.path.dirname(os.path.realpath(__file__)), 'config.xml'))
     xml_root = tree.getroot()
     template_name = xml_root.find('Template').text.strip()
 
