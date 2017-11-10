@@ -72,6 +72,7 @@ class param:
 def index():
     if request.method == 'GET':
         # render main page
+        print('Mode: %s' % param.status["mode"])
         return render_template(template_name, mode=param.status["mode"], set_point=param.status["set_point"], \
                                duty_cycle=param.status["duty_cycle"], cycle_time=param.status["cycle_time"], \
                                k_param=param.status["k_param"], i_param=param.status["i_param"], \
