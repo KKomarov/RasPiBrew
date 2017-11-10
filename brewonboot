@@ -33,12 +33,14 @@ case "$1" in
     start)
         echo "Starting RasPiBrew"
         # run application you want to start
-        python3 /var/www/RasPiBrew/raspibrew.py
+        pushd /var/www/RasPiBrew/
+        python3 raspibrew.py
+        popd
     ;;
     stop)
         echo "Stopping RasPiBrew"
         # kill application you want to stop
-        killall python
+        killall python3
         python3 /var/www/RasPiBrew/cleanupGPIO.py
     ;;
 *)
