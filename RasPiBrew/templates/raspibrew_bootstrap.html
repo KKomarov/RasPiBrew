@@ -129,15 +129,15 @@
 							<div class="row">
 								<div class="form-group">
 									<div class="btn-group col-sm-offset-3" data-toggle="buttons">
-										
+
 										<label class="btn btn-primary">
-											<input type="radio" name="mode" id="auto" value="auto">
+											<input type="radio" name="mode" id="auto" value="auto" {% if mode == "auto" %}checked{% endif %}>
 											Auto </label>
 										<label class="btn btn-primary">
-											<input type="radio" name="mode" id="manual" value="manual">
+											<input type="radio" name="mode" id="manual" value="manual" {% if mode == "manual" %}checked{% endif %}>
 											Manual </label>
 										<label class="btn btn-primary active">
-											<input type="radio" name="mode" id="off" value="off" checked>
+											<input type="radio" name="mode" id="off" value="off" {% if mode == "off" %}checked{% endif %}>
 											Off </label>
 									</div>
 								</div>
