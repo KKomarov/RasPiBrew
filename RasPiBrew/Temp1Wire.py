@@ -19,14 +19,13 @@ class Temp1Wire:
         print("Constructing 1W sensor %s" % (tempSensorId))
 
     def readTempC(self):
-        # pipe = Popen(["cat","/sys/bus/w1/devices/" + tempSensorId + "/w1_slave"], stdout=PIPE)
         pipe = Popen(["cat", self.oneWireDir + self.tempSensorId + "/w1_slave"], stdout=PIPE)
 
         result = pipe.communicate()[0].decode()
-        #    print(result)
-        if (result.split('\n')[0].split(' ')[11] == "YES"):
-            temp_C = float(result.split("=")[-1]) / 1000  # temp in Celcius
-        else:
-            temp_C = 1000  # bad temp reading
+        if not result:
+            return
 
-        return temp_C
+        if result.split('\n')[0].split(' ')[11] == "YES":
+            return float(result.split("=")[-1]) / 1000  # temp in Celcius
+        else:
+            return

@@ -193,10 +193,12 @@ def gettempProc(conn, myTempSensor):
     p = current_process()
     print('Starting:', p.name, p.pid)
 
-    while (True):
+    while True:
         t = time.time()
         time.sleep(.5)  # .1+~.83 = ~1.33 seconds
         num = myTempSensor.readTempC()
+        if num is None:
+            print("Can't read temperature")
         elapsed = "%.2f" % (time.time() - t)
         conn.send([num, myTempSensor.sensorNum, elapsed])
 
@@ -341,7 +343,7 @@ def tempControlProc(myTempSensor, display, pinNum, readOnly, paramStatus, status
         while parent_conn_temp.poll():  # Poll Get Temperature Process Pipe
             temp_C, tempSensorNum, elapsed = parent_conn_temp.recv()  # non blocking receive from Get Temperature Process
 
-            if temp_C == -99:
+            if temp_C is None:
                 print("Bad Temp Reading - retry")
                 continue
 
